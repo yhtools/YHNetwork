@@ -1,5 +1,5 @@
 public struct YHNetwork {
-    public private(set) var text = "Hello, World!"
+    public let version = "1.0.0"
 
     public init() {
     }
