@@ -75,11 +75,12 @@ open class YHDownloadModel: Hashable {
     
     public var progress:Progress?
     
-    public func getSrc() -> String {
+    open func getSrc() -> String {
         return ""
     }
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(getSrc())
     }
+    
 }
