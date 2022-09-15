@@ -71,7 +71,7 @@ open class YHDownloadModel: Hashable {
     
     public var progress:Progress?
     
-    init(progress: Progress? = nil) {
+    public init(progress: Progress? = nil) {
         self.progress = progress
     }
     
