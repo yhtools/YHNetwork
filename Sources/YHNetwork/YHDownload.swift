@@ -69,11 +69,15 @@ public class YHDownload {
 
 open class YHDownloadModel: Hashable {
     
+    public var progress:Progress?
+    
+    init(progress: Progress? = nil) {
+        self.progress = progress
+    }
+    
     public static func == (lhs: YHDownloadModel, rhs: YHDownloadModel) -> Bool {
         return lhs.getSrc() == rhs.getSrc()
     }
-    
-    public var progress:Progress?
     
     open func getSrc() -> String {
         return ""
