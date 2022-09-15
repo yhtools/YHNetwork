@@ -16,6 +16,16 @@ public class YHDownload {
     public var maxCount = 5
     private init(){}
     
+    public func add(downloadModels:[YHDownloadModel]) {
+        
+        downloadModels.forEach({
+            [unowned self]
+            downloadModel in
+            
+            add(downloadModel: downloadModel)
+        })
+    }
+    
     public func add(downloadModel:YHDownloadModel) {
         
         downloadModels.append(downloadModel)
@@ -57,7 +67,7 @@ public class YHDownload {
     
 }
 
-public class YHDownloadModel: Hashable {
+open class YHDownloadModel: Hashable {
     
     public static func == (lhs: YHDownloadModel, rhs: YHDownloadModel) -> Bool {
         return lhs.getSrc() == rhs.getSrc()
