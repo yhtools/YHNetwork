@@ -44,7 +44,7 @@ public class YHDownload {
         
         downloadings.insert(downloadModel)
         downloadModel.progress = AF.download(downloadModel.getSrc(), to: {[unowned self] _,response in
-            return (documentURL(path: response.url?.lastPathComponent),[.removePreviousFile, .createIntermediateDirectories])})
+            return (documentURL(path: downloadModel.getFileName()),[.removePreviousFile, .createIntermediateDirectories])})
             .response {
                 [unowned self]
                 response in
@@ -81,6 +81,10 @@ open class YHDownloadModel: Hashable {
     
     open func getSrc() -> String {
         return ""
+    }
+    
+    open func getFileName() -> String {
+        return URL(string: getSrc())!.lastPathComponent
     }
     
     public func hash(into hasher: inout Hasher) {
