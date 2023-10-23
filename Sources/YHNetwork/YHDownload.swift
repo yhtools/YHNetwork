@@ -95,7 +95,7 @@ open class YHDownloadModel: Hashable {
     
 }
 
-public protocol YHDownloadDelegate: NSObjectProtocol {
+public protocol YHDownloadDelegate {
     
     func downloadCompleted(url:URL);
 }
