@@ -14,6 +14,7 @@ public class YHDownload {
     private var downloadModels = [YHDownloadModel]()
     private var downloadings = Set<YHDownloadModel>()
     public var maxCount = 5
+    public var delegate:YHDownloadDelegate?
     private init(){}
     
     public func add(downloadModels:[YHDownloadModel]) {
@@ -49,6 +50,7 @@ public class YHDownload {
                 [unowned self]
                 response in
         
+                delegate?.downloadCompleted(url: documentURL(path: downloadModel.getFileName()))
                 downloadings.remove(downloadModel)
                 self.download()
             }.downloadProgress
@@ -91,4 +93,9 @@ open class YHDownloadModel: Hashable {
         hasher.combine(getSrc())
     }
     
+}
+
+public protocol YHDownloadDelegate: NSObjectProtocol {
+    
+    func downloadCompleted(url:URL);
 }
