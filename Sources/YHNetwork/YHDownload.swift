@@ -15,6 +15,7 @@ public class YHDownload {
     private var downloadings = Set<YHDownloadModel>()
     public var maxCount = 5
     public var delegate:YHDownloadDelegate?
+    public var userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
     private init(){}
     
     public func add(downloadModels:[YHDownloadModel]) {
@@ -44,7 +45,7 @@ public class YHDownload {
     private func downloadFromNetwork(_ downloadModel:YHDownloadModel) {
         
         downloadings.insert(downloadModel)
-        downloadModel.progress = AF.download(downloadModel.getSrc(), to: {[unowned self] _,response in
+        downloadModel.progress = AF.download(downloadModel.getSrc(), headers: HTTPHeaders(["User-Agent":userAgent]), to: {[unowned self] _,response in
             return (documentURL(path: downloadModel.getFileName()),[.removePreviousFile, .createIntermediateDirectories])})
             .response {
                 [unowned self]
