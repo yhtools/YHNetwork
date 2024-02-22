@@ -39,7 +39,7 @@ public class YHHTTPClient {
     
     private func handleRequest(request:YHRequest,dataRequest:DataRequest) {
         
-        dataRequest.responseString(completionHandler: {
+        dataRequest.responseString(encoding: .utf8, completionHandler: {
             [unowned self]
             dataResponse in
             self.handleResponse(request: request, dataResponse: dataResponse)
