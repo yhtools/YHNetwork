@@ -61,11 +61,9 @@ public class YHDownload {
 open class YHDownloadModel: Hashable {
     
     public var progress:Progress?
-    public var filename:String
     
-    public init(progress: Progress? = nil,filename:String) {
+    public init(progress: Progress? = nil) {
         self.progress = progress
-        self.filename = filename
     }
     
     public static func == (lhs: YHDownloadModel, rhs: YHDownloadModel) -> Bool {
@@ -76,10 +74,14 @@ open class YHDownloadModel: Hashable {
         return ""
     }
     
+    open func getFileName() -> String {
+        return URL(string: getSrc())!.lastPathComponent
+    }
+    
     open func getFileURL() -> URL {
         
         let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentURL.appendingPathComponent(filename)
+        return documentURL.appendingPathComponent(getFileName())
     }
     
     open func downloadCompleted() -> Bool {
