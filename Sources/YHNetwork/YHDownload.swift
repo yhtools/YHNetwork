@@ -86,6 +86,11 @@ open class YHDownloadModel: Hashable {
         return documentURL.appendingPathComponent(getFileName())
     }
     
+    open func downloadCompleted() -> Bool {
+     
+        return FileManager.default.fileExists(atPath: getFileURL().path)
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(getSrc())
     }
