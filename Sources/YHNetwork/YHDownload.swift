@@ -51,21 +51,21 @@ public class YHDownload {
                 [unowned self]
                 response in
         
-                delegate?.downloadCompleted(url: downloadModel.getFileURL())
+                delegate?.downloadCompleted(downloadModel: downloadModel)
                 downloadings.remove(downloadModel)
                 self.download()
             }.downloadProgress
     }
-    
-    
 }
 
 open class YHDownloadModel: Hashable {
     
     public var progress:Progress?
+    public var filename:String
     
-    public init(progress: Progress? = nil) {
+    public init(progress: Progress? = nil,filename:String) {
         self.progress = progress
+        self.filename = filename
     }
     
     public static func == (lhs: YHDownloadModel, rhs: YHDownloadModel) -> Bool {
@@ -76,14 +76,10 @@ open class YHDownloadModel: Hashable {
         return ""
     }
     
-    open func getFileName() -> String {
-        return URL(string: getSrc())!.lastPathComponent
-    }
-    
     open func getFileURL() -> URL {
         
         let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentURL.appendingPathComponent(getFileName())
+        return documentURL.appendingPathComponent(filename)
     }
     
     open func downloadCompleted() -> Bool {
@@ -99,5 +95,5 @@ open class YHDownloadModel: Hashable {
 
 public protocol YHDownloadDelegate {
     
-    func downloadCompleted(url:URL);
+    func downloadCompleted(downloadModel:YHDownloadModel);
 }

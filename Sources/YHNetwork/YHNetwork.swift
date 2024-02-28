@@ -1,5 +1,5 @@
 public struct YHNetwork {
-    public let version = "1.1.13"
+    public let version = "1.1.15"
 
     public init() {
     }
