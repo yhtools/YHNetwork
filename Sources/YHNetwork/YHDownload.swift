@@ -45,28 +45,18 @@ public class YHDownload {
     private func downloadFromNetwork(_ downloadModel:YHDownloadModel) {
         
         downloadings.insert(downloadModel)
-        downloadModel.progress = AF.download(downloadModel.getSrc(), headers: HTTPHeaders(["User-Agent":userAgent]), to: {[unowned self] _,response in
-            return (documentURL(path: downloadModel.getFileName()),[.removePreviousFile, .createIntermediateDirectories])})
+        downloadModel.progress = AF.download(downloadModel.getSrc(), headers: HTTPHeaders(["User-Agent":userAgent]), to: {_,response in
+            return (downloadModel.getFileURL(),[.removePreviousFile, .createIntermediateDirectories])})
             .response {
                 [unowned self]
                 response in
         
-                delegate?.downloadCompleted(url: documentURL(path: downloadModel.getFileName()))
+                delegate?.downloadCompleted(url: downloadModel.getFileURL())
                 downloadings.remove(downloadModel)
                 self.download()
             }.downloadProgress
     }
     
-    private func documentURL(path:String?) -> URL {
-        
-        let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        if let tempPath = path {
-            
-            return documentURL.appendingPathComponent(tempPath)
-        }
-        
-        return documentURL
-    }
     
 }
 
@@ -88,6 +78,12 @@ open class YHDownloadModel: Hashable {
     
     open func getFileName() -> String {
         return URL(string: getSrc())!.lastPathComponent
+    }
+    
+    open func getFileURL() -> URL {
+        
+        let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentURL.appendingPathComponent(getFileName())
     }
     
     public func hash(into hasher: inout Hasher) {
